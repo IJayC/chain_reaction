@@ -48,7 +48,7 @@ textInputRow <- function (inputId, label, value = "") {
 #' @param data_frame dataframe
 #' @param row numeric, value <= nrow > 0
 #' @param column numeric, value <= ncol > 0
-#'
+#' @author Jayachandra N
 #' @return character, corner of dataframe
 #' @export
 #'
@@ -76,7 +76,7 @@ test_df <- as.data.frame(matrix(NA, 10,10))
 # which_corner(test_df, 1, 1)
 
 
-testthat::test_that("Test initialize_matrix!", {
+testthat::test_that("Test which corner..!", {
   test_df <- as.data.frame(matrix(NA, 10,10))
   testthat::expect_equal(which_corner(test_df, 10, 10), "bottom_right_corner")
   testthat::expect_equal(which_corner(test_df, 10, 1), 'bottom_left_corner')
@@ -91,7 +91,7 @@ testthat::test_that("Test initialize_matrix!", {
 #' @param data_frame dataframe
 #' @param row numeric, value <= nrow > 0
 #' @param column numeric, value <= ncol > 0
-#'
+#' @author Jayachandra N
 #' @return charater, type of the edge
 #' @export
 #'
@@ -114,13 +114,15 @@ which_edge <- function(data_frame, row, column) {
   }
 }
 # Call
+test_df <- as.data.frame(matrix(NA, 10,10))
+
 # which_edge(test_df, 2, 2)
 # which_edge(test_df, 1,3)
 # which_edge(test_df, 4,3)
 # which_edge(test_df, 3,4)
 # which_edge(test_df, 3,1)
 
-testthat::test_that("Test initialize_matrix!", {
+testthat::test_that("Test which edge!", {
   test_df <- as.data.frame(matrix(NA, 10,10))
   testthat::expect_equal(which_edge(test_df, 10, 2), "bottom_most")
   testthat::expect_equal(which_edge(test_df, 1, 2), 'top_most')
@@ -135,7 +137,7 @@ testthat::test_that("Test initialize_matrix!", {
 #' @param data_frame data frame with n * n where n is > 0
 #' @param row_index Integer 
 #' @param column_index Integer
-#'
+#' @author Jayachandra N
 #' @return
 #' @export
 #'
@@ -175,7 +177,7 @@ testthat::test_that(" test getNeighborsForThisCorner", {
 #'
 #' @param my_list List
 #' @param excluded_values vector
-#'
+#' @author Jayachandra N
 #' @return
 #' @export
 #'
@@ -345,6 +347,12 @@ testthat::test_that(" test getNeighborType", {
 # df <- as.data.frame(matrix(NA, 5, 5))
 # getNeighborType(df, 5,5)
 
+#' check_winning_moment
+#'
+#' @param df a data frame
+#' @author Jayachandra N
+#' @return text
+#' @export
 check_winning_moment <- function(df) {
   res <- unique(na.omit(as.vector(as.matrix(df))))
   if(length(res) == 1) {
@@ -369,6 +377,10 @@ check_winning_moment <- function(df) {
   }
 }
 
+testthat::test_that("test winning moment", {
+  res <- data.frame(x = "P1", y = "P1")
+  testthat::expect_error(check_winning_moment(res)) 
+})
 
 #' reactoR
 #'
@@ -472,19 +484,19 @@ reactoR <- function(data_frame, cells) {
   return(list(affected_cells = affected_cells, result = reactoR(data_frame, cells)))
 }
 
-# cells <- list(c(1,1))
-# df <- as.data.frame(matrix(NA, 4, 4))
-# reactoR(df, cells)
+cells <- list(c(1,1))
+df <- as.data.frame(matrix(NA, 4, 4))
+reactoR(df, cells)
 
-# testthat::test_that(" test reactoR", {
-#   cells <- list(c(1,1))
-#   df <- as.data.frame(matrix(NA, 4, 4))
-#   res <- reactoR(df, cells)
-#   testthat::expect_true(is.list(res))
-#   testthat::expect_equal(length(res), 2)
-#   names(res)
-#   testthat::expect_identical(names(res), c('affected_cells', 'result'))
-# })
+testthat::test_that(" test reactoR", {
+  cells <- list(c(1,1))
+  df <- as.data.frame(matrix(NA, 4, 4))
+  res <- reactoR(df, cells)
+  testthat::expect_true(is.list(res))
+  testthat::expect_equal(length(res), 2)
+  names(res)
+  testthat::expect_identical(names(res), c('affected_cells', 'result'))
+})
 
 
 three_dots <- function(color = NULL) {
